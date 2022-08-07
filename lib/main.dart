@@ -19,7 +19,7 @@ class Forsat extends StatelessWidget {
         primarySwatch: brandingColor,
       ),
         onGenerateRoute: Routers.onGenerateRoute,
-      initialRoute: homeRoute,
+      initialRoute: signInRoute,
     );
   }
 }
