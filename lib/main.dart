@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:forsat/presentation/Opportunities/opportunities_page.dart';
-
+import 'package:forsat/router/router.dart';
+import 'package:forsat/router/route_constants.dart';
 void main() {
   runApp(const Forsat());
 }
@@ -16,7 +16,8 @@ class Forsat extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-       home:OpportunitiesPage(),
+        onGenerateRoute: Routers.onGenerateRoute,
+      initialRoute: homeRoute,
     );
   }
 }

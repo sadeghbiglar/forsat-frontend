@@ -5,11 +5,16 @@ class OpportunitiesPage extends StatefulWidget {
   _OpportunitiesPageState createState() => _OpportunitiesPageState();
 }
 
-class _OpportunitiesPageState extends State<OpportunitiesPage> {
+class _OpportunitiesPageState extends State<OpportunitiesPage> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+      super.build(context);
     return Scaffold(
-      appBar: AppBar(title: Text('Home Page')),
+      appBar: AppBar(title: Text('Opportunities Page')),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
