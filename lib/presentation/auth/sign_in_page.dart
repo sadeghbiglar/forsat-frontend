@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:forsat/application/models/sign_in_form_model.dart';
+import 'package:forsat/router/route_constants.dart';
 import 'package:forsat/values/images.dart';
 //import 'package:states_rebuilder/states_rebuilder.dart';
 
@@ -9,7 +10,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   final _signInFormModel = SignInFormModel();
   @override
   Widget build(BuildContext context) {
@@ -93,14 +94,17 @@ final _formKey = GlobalKey<FormState>();
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      "حساب کاربری ندارید؟",
-                    ),
+                    
                     MaterialButton(
                       child: Text("ثبت نام",
                           style:
                               TextStyle(color: Theme.of(context).primaryColor)),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, signUpRoute);
+                      },
+                    ),
+                    Text(
+                      "حساب کاربری ندارید؟",
                     ),
                   ],
                 )
@@ -111,7 +115,4 @@ final _formKey = GlobalKey<FormState>();
   }
 
   SizedBox buildSizedBox(double height) => SizedBox(height: height);
-
-
-
- }
+}
