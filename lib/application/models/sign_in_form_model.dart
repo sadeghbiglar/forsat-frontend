@@ -1,13 +1,15 @@
 class SignInFormModel {
-  late String email;
-  late String password;
-   void setEmail(String email) {
+   String? email;
+   String? password;
+
+  void setEmail(String email) {
     if (!validateEmail(email)) {
       throw LoginError(message: "invalide message");
     }
     this.email = email;
-}
- void setPassword(String password) {
+  }
+
+  void setPassword(String password) {
     if (password.length < 6) {
       throw LoginError(message: "password lenght shuld be greater than 6");
     }
@@ -18,6 +20,9 @@ class SignInFormModel {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
+  }
+  bool validatePassword(String password) {
+    return  (password.length > 6);
   }
 }
 
