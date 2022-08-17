@@ -1,6 +1,9 @@
+
+
+
 class SignInFormModel {
-   String? email;
-   String? password;
+  String? email;
+  String? password;
 
   void setEmail(String email) {
     if (!validateEmail(email)) {
@@ -21,8 +24,9 @@ class SignInFormModel {
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
+
   bool validatePassword(String password) {
-    return  (password.length > 6);
+    return (password.length > 6);
   }
 }
 
@@ -30,3 +34,6 @@ class LoginError extends Error {
   final String message;
   LoginError({required this.message});
 }
+ 
+
+

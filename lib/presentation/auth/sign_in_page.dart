@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:forsat/application/models/sign_in_form_model.dart';
 import 'package:forsat/router/route_constants.dart';
+import 'package:forsat/services/globals.dart';
 import 'package:forsat/values/images.dart';
+import 'package:http/http.dart' as http;
+import 'package:forsat/services/auth_services.dart';
+import 'dart:convert';
 //import 'package:states_rebuilder/states_rebuilder.dart';
 
 class SignInPage extends StatefulWidget {
@@ -10,8 +14,33 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  
   final _formKey = GlobalKey<FormState>();
   final _signInFormModel = SignInFormModel();
+  
+  String _email = '';
+  String _password = '';
+  String _statusCode='';
+  loginPressed() async {
+    http.Response response = await AuthServices.login(_email, _password);
+    Map responseMap = jsonDecode(response.body);
+     _statusCode=response.statusCode.toString();
+  }
+ proccesLogin(){
+   loginPressed();
+   if(_statusCode=='200'){
+     _statusCode='';
+     Navigator.pushNamed(context, homeRoute);
+     
+   }
+   else{
+     _statusCode='';
+     errorSnackBar( context,'نام کاربری یا رمز عبور اشتباه است');
+     
+   }
+ }
+@override
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +69,9 @@ class _SignInPageState extends State<SignInPage> {
                     }
                     return null;
                   },
+                  onChanged: (value) {
+                    _email = value;
+                  },
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.email),
                     hintText: "Enter your email",
@@ -55,6 +87,9 @@ class _SignInPageState extends State<SignInPage> {
                       return 'Please enter valid password';
                     }
                     return null;
+                  },
+                  onChanged: (value) {
+                    _password = value;
                   },
                   obscureText: true,
                   decoration: InputDecoration(
@@ -81,9 +116,10 @@ class _SignInPageState extends State<SignInPage> {
                     if (_formKey.currentState!.validate()) {
                       // If the form is valid, display a snackbar. In the real world,
                       // you'd often call a server or save the information in a database.
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   const SnackBar(content: Text('Processing Data')),
+                      // );
+                    proccesLogin();
                     }
                   },
                   height: 55,
@@ -94,7 +130,6 @@ class _SignInPageState extends State<SignInPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    
                     MaterialButton(
                       child: Text("ثبت نام",
                           style:
