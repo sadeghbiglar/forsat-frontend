@@ -1,11 +1,17 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:forsat/application/models/sign_in_form_model.dart';
 import 'package:forsat/router/route_constants.dart';
+import 'package:forsat/services/auth.dart';
 import 'package:forsat/services/globals.dart';
 import 'package:forsat/values/images.dart';
 import 'package:http/http.dart' as http;
 import 'package:forsat/services/auth_services.dart';
 import 'dart:convert';
+
+import 'package:provider/provider.dart';
 //import 'package:states_rebuilder/states_rebuilder.dart';
 
 class SignInPage extends StatefulWidget {
@@ -39,6 +45,43 @@ class _SignInPageState extends State<SignInPage> {
      
    }
  }
+
+ ///////////
+  TextEditingController  _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  String? _deviceName;
+  @override
+  void initState() {
+    
+    _emailController.text='sb@gm.com';
+    _passwordController.text='password';
+     getDeviceName();
+    super.initState();
+  }
+  void getDeviceName()async{
+  try{
+   if(Platform.isAndroid){
+     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+     _deviceName=androidInfo.model;
+   }else if(Platform.isIOS){
+     IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+     _deviceName=iosInfo.utsname.machine;
+   }
+  }catch(e){
+    print(e);
+  }
+  }
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+
+ ////////////
 @override
  
   @override
@@ -63,6 +106,7 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                 ),
                 TextFormField(
+                   controller: _emailController,
                   validator: (value) {
                     if (!_signInFormModel.validateEmail(value!)) {
                       return 'Please enter valid email';
@@ -82,6 +126,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 buildSizedBox(15),
                 TextFormField(
+                  controller: _passwordController,
                   validator: (value) {
                     if (!_signInFormModel.validatePassword(value!)) {
                       return 'Please enter valid password';
@@ -112,6 +157,11 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                   onPressed: () {
+                     Map creds = {
+                    'email': _emailController.text,
+                    'password': _passwordController.text,
+                    'device_name': _deviceName ?? 'unknown',
+                  };
                     // Validate returns true if the form is valid, or false otherwise.
                     if (_formKey.currentState!.validate()) {
                       // If the form is valid, display a snackbar. In the real world,
@@ -119,7 +169,11 @@ class _SignInPageState extends State<SignInPage> {
                       // ScaffoldMessenger.of(context).showSnackBar(
                       //   const SnackBar(content: Text('Processing Data')),
                       // );
-                    proccesLogin();
+                   ////////////////////// proccesLogin();
+                    Provider.of<Auth>(context, listen: false)
+                        .login(creds);
+                  //  Navigator.pop(context);
+                  Navigator.pushNamed(context, homeRoute);
                     }
                   },
                   height: 55,
