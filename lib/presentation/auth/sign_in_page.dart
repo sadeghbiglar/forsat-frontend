@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:forsat/application/models/sign_in_form_model.dart';
 import 'package:forsat/router/route_constants.dart';
 import 'package:forsat/services/auth.dart';
@@ -20,7 +21,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  
+   final storage = const FlutterSecureStorage();
   final _formKey = GlobalKey<FormState>();
   final _signInFormModel = SignInFormModel();
   
@@ -58,7 +59,13 @@ class _SignInPageState extends State<SignInPage> {
     _emailController.text='sb@gm.com';
     _passwordController.text='password';
      getDeviceName();
+     readToken();
     super.initState();
+  }
+   void readToken() async {
+    String? token = await storage.read(key: 'token');
+    Provider.of<Auth>(context, listen: false).tryToken(token: token);
+    print(token);
   }
   void getDeviceName()async{
   try{
@@ -80,7 +87,6 @@ class _SignInPageState extends State<SignInPage> {
     super.dispose();
   }
 
-
  ////////////
 @override
  
@@ -93,11 +99,12 @@ class _SignInPageState extends State<SignInPage> {
         brightness: Brightness.light,
         automaticallyImplyLeading: false,
       ),
-      body: Container(
+      body:
+       Container(
           padding: EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
-            child: ListView(
+            child:  ListView(
               children: [
                 Container(
                   height: 250,
@@ -170,10 +177,9 @@ class _SignInPageState extends State<SignInPage> {
                       //   const SnackBar(content: Text('Processing Data')),
                       // );
                    ////////////////////// proccesLogin();
-                    Provider.of<Auth>(context, listen: false)
+                   Provider.of<Auth>(context, listen: false)
                         .login(creds);
-                  //  Navigator.pop(context);
-                  Navigator.pushNamed(context, homeRoute);
+                        
                     }
                   },
                   height: 55,
@@ -189,6 +195,7 @@ class _SignInPageState extends State<SignInPage> {
                           style:
                               TextStyle(color: Theme.of(context).primaryColor)),
                       onPressed: () {
+                        
                         Navigator.pushNamed(context, signUpRoute);
                       },
                     ),
@@ -198,7 +205,7 @@ class _SignInPageState extends State<SignInPage> {
                   ],
                 )
               ],
-            ),
+            ),//
           )),
     );
   }

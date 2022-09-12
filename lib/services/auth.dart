@@ -16,6 +16,7 @@ class Auth extends ChangeNotifier {
   
   void login(Map creds) async {
     print(creds);
+    print(authenticated.toString());
     try {
       Dio.Response response = await dio().post('/sanctum/token', data: creds);
       print(response.data.toString());
@@ -24,6 +25,8 @@ class Auth extends ChangeNotifier {
       tryToken(token: token);
       _isLoggedIn = true;
       notifyListeners();
+      print(authenticated.toString());
+      
     } catch (e) {
       print(e);
     }

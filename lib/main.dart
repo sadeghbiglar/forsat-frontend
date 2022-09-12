@@ -30,9 +30,9 @@ class Forsat extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: brandingColor,
       ),
-        onGenerateRoute: Routers.onGenerateRoute,
-      initialRoute: signInRoute,
-     //////////// home: HomeScreen(),
+      //   onGenerateRoute: Routers.onGenerateRoute,
+      // initialRoute: signInRoute,
+       home: HomeScreen(),
     );
   }
 }

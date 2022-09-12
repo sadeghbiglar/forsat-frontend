@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:forsat/presentation/Opportunities/opportunities_page.dart';
+import 'package:forsat/presentation/home/home_page.dart';
+import 'package:forsat/router/route_constants.dart';
 import 'package:forsat/screens/login_screen.dart';
 import 'package:forsat/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -72,6 +75,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   onTap: () {
                      Provider.of<Auth>(context, listen: false)
                         .logout();
+                  },
+                ),
+                ListTile(
+                  title: Text('mainPage'),
+                  leading: Icon(Icons.logout),
+                  onTap: () {
+                      Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) =>  HomePage()),
+  );
                   },
                 )
               ],
