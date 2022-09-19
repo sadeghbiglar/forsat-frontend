@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:forsat/presentation/Opportunities/opportunities_page.dart';
 import 'package:forsat/presentation/home/home_page.dart';
 import 'package:forsat/router/route_constants.dart';
+import 'package:forsat/screens/drawer.dart';
 import 'package:forsat/screens/login_screen.dart';
 import 'package:forsat/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -33,63 +34,20 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: const Text('اتوماسیون اداری مرکز بهداشت ابهر'),
         ),
-        body: const Center(child: Text('خوش آمدید')),
-        drawer: Drawer(child: Consumer<Auth>(builder: (context, auth, child) {
-          if (!auth.authenticated) {
-            return ListView(
-              children: [
-                ListTile(
-                  title: Text('login'),
-                  leading: Icon(Icons.login),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  },
-                ),
-              ],
-            );
-          } else {
-            return ListView(
-              children: [
-                DrawerHeader(
-                    child: Column(children: [
-                      const CircleAvatar(
-                       // backgroundImage:NetworkImage(auth.user.avatar),
-                        backgroundColor: Colors.white,
-                        radius: 50,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(auth.user.name),
-                      Text(auth.user.email),
-                    ]),
-                    decoration: const BoxDecoration(
-                      color: Colors.blue,
-                    )),
-                ListTile(
-                  title: Text('logout'),
-                  leading: Icon(Icons.logout),
-                  onTap: () {
-                     Provider.of<Auth>(context, listen: false)
-                        .logout();
-                  },
-                ),
-                ListTile(
-                  title: Text('mainPage'),
-                  leading: Icon(Icons.logout),
-                  onTap: () {
-                      Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) =>  HomePage()),
-  );
-                  },
-                )
-              ],
-            );
+        
+        body: Center(child: Consumer<Auth>(builder: (context, auth, child) {
+          if(auth.authenticated){
+            return  Text('خوش آمدید'+auth.user.name);
+                      
           }
-        })));
+         
+          return   Text('لطفا وارد حساب کاربری خود شوید'); 
+          }
+        
+        )
+        ),
+        drawer:ddrawer(),
+      
+        );
   }
 }

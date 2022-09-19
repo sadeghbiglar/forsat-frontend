@@ -167,7 +167,8 @@ class _SignInPageState extends State<SignInPage> {
                      Map creds = {
                     'email': _emailController.text,
                     'password': _passwordController.text,
-                    'device_name': _deviceName ?? 'unknown',
+                    'device_name': _deviceName ?? 'test',
+
                   };
                     // Validate returns true if the form is valid, or false otherwise.
                     if (_formKey.currentState!.validate()) {

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:forsat/presentation/home/home_page.dart';
+import 'package:forsat/screens/drawer.dart';
+import 'package:forsat/screens/home_screen.dart';
+import 'package:forsat/screens/login_screen.dart';
 import 'package:forsat/services/auth.dart';
 import 'package:provider/provider.dart';
 
@@ -45,8 +49,10 @@ class _OpportunitiesPageState extends State<OpportunitiesPage> with AutomaticKee
     onWillPop: _onBackPressed,
     child:  Scaffold(
       
-      appBar: AppBar(title: Text('خروج')
+      appBar: AppBar(
+        title:const Text('داشبورد مدیریت')
       ),
+       drawer:ddrawer(),
     )
       );
   }
